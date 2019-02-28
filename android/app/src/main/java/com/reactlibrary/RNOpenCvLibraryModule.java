@@ -39,46 +39,22 @@ public class RNOpenCvLibraryModule extends ReactContextBaseJavaModule {
         return "RNOpenCvLibrary";
     }
 
-    
-//     @ReactMethod
-//     public void isEqual( String a, int b, Callback booleanCallback) {
-// //  WritableMap map = new WritableMap();
-// //     map.putString("identifier", "asdasd");
-// //     map.putString("uuid", "asdasdasdy8qweu");
-   
-//     return 1;
-           
-//     }
-
-
-
     @ReactMethod
     public void isEqual1( String a, int b, Callback errorcallback, Callback successcallback) {
-        double alpha = 100; 
-        double beta = 1000; 
-      
-        
-        try {   
-            Mat source = Imgcodecs.imread(a, Imgcodecs.CV_LOAD_IMAGE_COLOR); 
+        double alpha = 100;
+        double beta = 1000;
+        try {
+            Mat source = Imgcodecs.imread(a, Imgcodecs.CV_LOAD_IMAGE_COLOR);
             Imgproc.cvtColor(source, source, Imgproc.COLOR_BGR2GRAY);
-            Mat destination = new Mat(source.rows(), source.cols(), source.type()); 
-            source.convertTo(destination, -1, alpha, beta); 
-        
+            Mat destination = new Mat(source.rows(), source.cols(), source.type());
+            source.convertTo(destination, -1, alpha, beta);
+
          Imgproc.equalizeHist( source, destination );
-          Imgcodecs.imwrite(a, destination); 
+          Imgcodecs.imwrite(a, destination);
             successcallback.invoke(a);
-        } catch (Exception e) { 
-            
+        } catch (Exception e) {
+
            errorcallback.invoke(e.getMessage());
-        } 
-    
-    
+        }
     }
-
-
-
-} 
-
-
-
-
+}

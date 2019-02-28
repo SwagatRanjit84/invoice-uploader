@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, PermissionsAndroid,TouchableHighlightm, TouchableOpacity,TouchableHighlight,View,CameraRoll, Image,TextInput, Button } from 'react-native';
-import { createAppContainer, createStackNavigator } from 'react-navigation'; 
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import DocumentScanner from 'react-native-documentscanner-android';
 import OpenCV from './NativeModules/OpenCV';
@@ -32,8 +32,7 @@ class HomeScreen extends React.Component {
   }
   render() {
     console.log("opencv is loading....",OpenCV);
-   
-    return (
+     return (
       <View style={styles.container}>
         <Image source={require ('./images/logo1.png')}  style={{marginLeft: '6%', marginTop: '5%'}} />
         <Text style={styles.documentname}> Document Name</Text>
@@ -87,7 +86,7 @@ class HomeScreen extends React.Component {
   this.props.navigation.navigate('Details', {itemId: 86,otherParam: this.state.text})
   };
  }
- 
+
  class DetailsScreen extends React.Component {
   constructor(){
     super()
@@ -97,14 +96,12 @@ class HomeScreen extends React.Component {
     return {
       title: navigation.getParam('otherParam', 'A Nested Details Screen')
     };
- 
-   
-  } 
-  
+  }
+
   render() {
     const { navigation } = this.props;
     const otherParam = navigation.getParam('otherParam', 'some default value');
-   
+
     return (
       <View style={styles.container}>
         <DocumentScanner
@@ -112,9 +109,8 @@ class HomeScreen extends React.Component {
           contrast={12}
           noGrayScale={true}
           onPictureTaken={data => {
-        
             console.log(data)
-            this.props.navigation.navigate('Preview', {otherParam: data.path, nameDocument: otherParam }) 
+            this.props.navigation.navigate('Preview', {otherParam: data.path, nameDocument: otherParam })
           }}
           detectionCountBeforeCapture={1}
         />
@@ -122,37 +118,22 @@ class HomeScreen extends React.Component {
     )
   }
 }
- 
+
 class PreviewScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('nameDocument', 'A Nested Details Screen')
     };
-  }  
-
+  }
 
   render() {
     const { navigation } = this.props;
     const otherParam = navigation.getParam('otherParam', 'some default value');
-    console.log("1222");
-    OpenCV.isEqual1(
-      otherParam,
-      10,
-      (msg) => {
-        console.log("error",msg)
-      },
-      (status) => {
-       console.log('Result ',status);
-      }
-     );
-
-     console.log("122333");
-
     return (
       <View style={styles.container}>
         <Image source={{uri: 'file://'+otherParam}} style={styles.preview}/>
         <View style={styles.subcontainer1}>
-          <TouchableHighlight 
+          <TouchableHighlight
             style ={{
                 height: 50,
                 width:110,
@@ -166,7 +147,7 @@ class PreviewScreen extends React.Component {
           >
             <Text style={{ fontSize: 20, fontWeight: 'bold',}}> Save </Text>
           </TouchableHighlight>
-          <TouchableHighlight 
+          <TouchableHighlight
             style ={{
                 height: 50,
                 width:110,
@@ -180,7 +161,7 @@ class PreviewScreen extends React.Component {
             onPress={this.homepage.bind(this)}
           >
             <Text style={{ fontSize: 20, fontWeight: 'bold',}}> Discard </Text>
-          </TouchableHighlight>     
+          </TouchableHighlight>
           </View>
         </View>
       );
@@ -192,22 +173,22 @@ class PreviewScreen extends React.Component {
     const file = navigation.getParam('otherParam', 'some default value');
     console.log(file);
     const filePath = file.split('///').pop()  // removes leading file:///
-    
+
     RNFS.exists(filePath)
       .then((res) => {
         if (res) {
           RNFS.unlink(filePath)
             .then(() => console.log('FILE DELETED'))
         }
-      }) 
-      this.props.navigation.navigate('Home', {itemId: 89,otherParam: 'data'}) 
+      })
+      this.props.navigation.navigate('Home', {itemId: 89,otherParam: 'data'})
   };
 
   savehomepage = async function() {
-    this.props.navigation.navigate('Home', {itemId: 89,otherParam: 'data'}) 
+    this.props.navigation.navigate('Home', {itemId: 89,otherParam: 'data'})
   };
 }
- 
+
  const RootStack = createStackNavigator(
   {
     Home: {
@@ -224,16 +205,16 @@ class PreviewScreen extends React.Component {
     initialRouteName: 'Home',
   }
  );
- 
- 
+
+
  const AppContainer = createAppContainer(RootStack);
- 
+
  export default class App extends Component {
   render() {
     return <AppContainer />;
   }
  }
- 
+
  const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -245,7 +226,7 @@ class PreviewScreen extends React.Component {
     justifyContent: 'space-between',
     marginTop: "115%",
   },
-  
+
   documentname:  {
     marginLeft: '6%',
     marginTop: '3%',
@@ -267,7 +248,7 @@ class PreviewScreen extends React.Component {
     width: '85%',
     height: '60%',
     margin: '10%',
-   
+
   },
   camera: {
     flex: 1,
@@ -284,4 +265,3 @@ class PreviewScreen extends React.Component {
     marginTop: '120%',
   },
  });
- 
